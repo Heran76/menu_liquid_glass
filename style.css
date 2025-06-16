@@ -1,0 +1,422 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --primary-gradient: linear-gradient(135deg, 
+        #83948c7f 0%, 
+        #cff5fa67 25%, 
+        #ff6b6b59 50%, 
+        #d2aef45b 75%, 
+        #3b82f6 100%);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.171);
+    --text-color: #333;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e2e4ed 0%, #9d95a485 100%);
+    overflow: visible; /* CRÍTICO: Permitir desbordamiento */
+    position: relative;
+}
+
+/* Fondo animado con partículas */
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.806);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(1) {
+    top: 20%;
+    left: 20%;
+    animation-delay: 0s;
+    animation-duration: 6s;
+}
+
+.particle:nth-child(2) {
+    top: 60%;
+    left: 80%;
+    animation-delay: 2s;
+    animation-duration: 8s;
+}
+
+.particle:nth-child(3) {
+    top: 80%;
+    left: 40%;
+    animation-delay: 4s;
+    animation-duration: 7s;
+}
+
+.particle:nth-child(4) {
+    top: 40%;
+    left: 60%;
+    animation-delay: 1s;
+    animation-duration: 9s;
+}
+
+.particle:nth-child(5) {
+    top: 10%;
+    left: 90%;
+    animation-delay: 3s;
+    animation-duration: 5s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.8;
+    }
+}
+
+/* CONTENEDOR PRINCIPAL - SOLUCIÓN AL PROBLEMA DEL ICONO */
+.navigation {
+    width: 400px;
+    height: 120px; /* AUMENTADO para dar espacio al icono */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 35px;
+    overflow: visible; /* CRÍTICO: Permitir desbordamiento */
+    
+    /* Efecto cristal líquido */
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    
+    /* Animación de entrada */
+    animation: slideUp 0.8s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.navigation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 35px;
+    background: var(--primary-gradient);
+    opacity: 0.1;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+}
+
+.navigation:hover::before {
+    opacity: 0.2;
+}
+
+/* LISTA UL - SOLUCIÓN AL PROBLEMA DEL ICONO */
+.navigation ul {
+    display: flex;
+    width: 350px;
+    height: 120px; /* AUMENTADO para coincidir con el contenedor */
+    position: relative;
+    z-index: 2;
+    overflow: visible; /* CRÍTICO: Permitir desbordamiento */
+}
+
+/* ELEMENTOS LI - SOLUCIÓN AL PROBLEMA DEL ICONO */
+.navigation ul li {
+    position: relative;
+    list-style: none;
+    width: 70px;
+    height: 120px; /* AUMENTADO para dar espacio al icono */
+    z-index: 100;
+    overflow: visible; /* CRÍTICO: Permitir desbordamiento */
+}
+
+/* ENLACES A - SOLUCIÓN AL PROBLEMA DEL ICONO */
+.navigation ul li a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+    z-index: 10;
+    overflow: visible; /* CRÍTICO: Permitir desbordamiento */
+}
+
+/* ICONO - SOLUCIÓN PRINCIPAL AL PROBLEMA */
+.navigation ul li a .icon {
+    position: relative;
+    display: block;
+    line-height: 1; /* CAMBIADO de 75px a 1 para evitar problemas */
+    font-size: 1.5rem;
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    color: var(--text-color);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.674));
+    z-index: 1000; /* Z-index muy alto para asegurar visibilidad */
+    margin-top: 20px; /* Espacio desde arriba para permitir movimiento */
+}
+
+/* ICONO ACTIVO - MOVIMIENTO SIN RECORTE */
+.navigation ul li.active a .icon {
+    transform: translateY(-35px); /* Movimiento hacia arriba */
+    color: #fff;
+    filter: drop-shadow(0 0 20px rgba(82, 76, 76, 0.8));
+    text-shadow: 0 0 20px rgba(46, 45, 45, 0.5);
+    z-index: 1001; /* Z-index aún más alto para el icono activo */
+}
+
+.navigation ul li:hover a .icon {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 15px rgba(20, 18, 18, 0.6));
+}
+
+/* TEXTO */
+.navigation ul li a .text {
+    position: absolute;
+    color: var(--text-color);
+    font-weight: 400;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 0;
+    transform: translateY(20px);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    bottom: 10px; /* Posicionado desde abajo */
+}
+
+.navigation ul li.active a .text {
+    transform: translateY(0);
+    opacity: 1;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+/* INDICADOR LÍQUIDO MEJORADO */
+.indicator {
+    position: absolute;
+    top: 10px; /* Ajustado para el nuevo tamaño del contenedor */
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 1; /* Z-index bajo para que esté detrás del icono */
+}
+
+.liquid-core {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.792);
+    box-shadow: 
+        0 0 30px rgba(0, 255, 135, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.2),
+        0 8px 16px rgba(0, 0, 0, 0.2);
+    animation: liquidPulse 3s ease-in-out infinite;
+}
+
+@keyframes liquidPulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: hue-rotate(0deg);
+    }
+    50% {
+        transform: scale(1.05);
+        filter: hue-rotate(90deg);
+    }
+}
+
+/* Ondas de propagación */
+.ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    border: 2px solid rgba(255, 255, 255, 0.691);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: rippleEffect 2s linear infinite;
+    opacity: 0;
+}
+
+.ripple:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.ripple:nth-child(3) {
+    animation-delay: 1s;
+}
+
+.ripple:nth-child(4) {
+    animation-delay: 1.5s;
+}
+
+@keyframes rippleEffect {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
+}
+
+/* Efectos de curva líquida */
+.indicator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -22px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border-top-right-radius: 20px;
+    box-shadow: 1px -10px 0 0 rgba(255, 255, 255, 0);
+    backdrop-filter: blur(10px);
+}
+
+.indicator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -22px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border-top-left-radius: 20px;
+    box-shadow: -1px -10px 0 0 rgba(255, 255, 255, 0);
+    backdrop-filter: blur(10px);
+}
+
+/* Posiciones del indicador */
+.navigation ul li:nth-child(1).active ~ .indicator {
+    transform: translateX(calc(70px * 0));
+}
+
+.navigation ul li:nth-child(2).active ~ .indicator {
+    transform: translateX(calc(70px * 1));
+}
+
+.navigation ul li:nth-child(3).active ~ .indicator {
+    transform: translateX(calc(70px * 2));
+}
+
+.navigation ul li:nth-child(4).active ~ .indicator {
+    transform: translateX(calc(70px * 3));
+}
+
+.navigation ul li:nth-child(5).active ~ .indicator {
+    transform: translateX(calc(70px * 4));
+}
+
+/* Efectos adicionales en hover */
+.navigation ul li:hover {
+    transform: translateY(-2px);
+}
+
+.navigation ul li.active:hover {
+    transform: translateY(-4px);
+}
+
+/* Responsividad */
+@media (max-width: 480px) {
+    .navigation {
+        width: 350px;
+        height: 100px;
+    }
+    
+    .navigation ul {
+        width: 300px;
+        height: 100px;
+    }
+    
+    .navigation ul li {
+        width: 60px;
+        height: 100px;
+    }
+    
+    .navigation ul li a .icon {
+        font-size: 1.3rem;
+        margin-top: 15px;
+    }
+    
+    .navigation ul li.active a .icon {
+        transform: translateY(-30px);
+    }
+    
+    .indicator {
+        width: 60px;
+        height: 60px;
+        top: 5px;
+    }
+    
+    .navigation ul li:nth-child(1).active ~ .indicator {
+        transform: translateX(calc(60px * 0));
+    }
+    
+    .navigation ul li:nth-child(2).active ~ .indicator {
+        transform: translateX(calc(60px * 1));
+    }
+    
+    .navigation ul li:nth-child(3).active ~ .indicator {
+        transform: translateX(calc(60px * 2));
+    }
+    
+    .navigation ul li:nth-child(4).active ~ .indicator {
+        transform: translateX(calc(60px * 3));
+    }
+    
+    .navigation ul li:nth-child(5).active ~ .indicator {
+        transform: translateX(calc(60px * 4));
+    }
+}
+
